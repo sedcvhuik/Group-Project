@@ -8,8 +8,7 @@
 </head>
 <body>
     <h2>Loan Application Form</h2>
-    <form id="loanForm" onsubmit="return submitForm(event)">
-        <!-- Previous form fields remain the same -->
+    <form id="loanForm" action="/result" method="POST" onsubmit="return validateForm(event)">
         <div class="form-group">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -75,44 +74,30 @@
         <button type="submit">Submit Application</button>
     </form>
 
-    <!-- Result Display Section -->
-    <div id="resultSection" style="display: none; margin-top: 20px; padding: 20px; border-radius: 4px;">
-        <h3>Credit Assessment Result</h3>
-        <p id="creditScore"></p>
-        <p id="loanDecision"></p>
-        <p id="riskAnalysis"></p>
-    </div>
-
     <script>
         function validateForm(event) {
-            event.preventDefault();
-            
-            // Get form data
             const formData = new FormData(event.target);
             const data = Object.fromEntries(formData.entries());
             
-            // Simple form validation
             if (parseInt(data.loanAmount) <= 0) {
                 alert('Please enter a valid loan amount');
+                event.preventDefault();
                 return false;
             }
             
             if (parseInt(data.loanPeriod) <= 0 || parseInt(data.loanPeriod) > 360) {
                 alert('Please enter a valid loan period (1-360 months)');
+                event.preventDefault();
                 return false;
             }
             
             if (parseInt(data.income) <= 0) {
                 alert('Please enter a valid monthly income');
+                event.preventDefault();
                 return false;
             }
             
-            // Additional validation logic can be added here
-            
-            // Display submitted data
-            console.log('Form data:', data);
-            alert('Form submitted successfully!');
-            return false; // Prevent actual submission
+            return true;  // 验证通过，允许表单提交
         }
     </script>
 </body>
